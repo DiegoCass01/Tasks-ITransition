@@ -1,7 +1,8 @@
 const readline = require('readline-sync');
 const crypto = require('crypto');
-const GameRules = require('./rules'); // Import GameRules class
-const HmacGenerator = require('./hmacGenerator'); // Import HmacGenerator class
+const GameRules = require('./rules'); 
+const HmacGenerator = require('./hmacGenerator'); 
+const HelpTable = require('./help'); 
 
 class Game {
   constructor(moves) {
@@ -58,8 +59,8 @@ class Game {
   }
 
   getRandomMove() {
-    const randomBytes = crypto.randomBytes(4);  // 4 bytes = 32 bits
-    const randomNumber = randomBytes.readUInt32BE(0); // Convert bytes to unsigned integer
+    const randomBytes = crypto.randomBytes(32);  
+    const randomNumber = randomBytes.readUInt32BE(0); 
     return this.moves[randomNumber % this.moves.length];
   }
 }
@@ -68,12 +69,12 @@ class Game {
 if (require.main === module) {
   const moves = process.argv.slice(2); // Collect command line arguments starting from the third one
   if (moves.length < 3 || moves.length % 2 === 0) {
-    console.error('Error: You must provide an odd number of moves (>= 3). Example: rock paper scissors.');
+    console.error('You must provide an odd number of moves (>= 3)');
     process.exit(1);
   }
 
   try {
-    const game = new Game(moves); // Create Game instance
+    const game = new Game(moves); 
     game.start(); // Start the game
   } catch (error) {
     console.error(error.message);
