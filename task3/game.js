@@ -1,13 +1,15 @@
-const readline = require('readline-sync');
-const crypto = require('crypto');
-const GameRules = require('./rules'); 
-const HmacGenerator = require('./hmacGenerator'); 
-const HelpTable = require('./help'); 
+const readline = require("readline-sync");
+const crypto = require("crypto");
+const GameRules = require("./rules");
+const HmacGenerator = require("./hmacGenerator");
+const HelpTable = require("./help");
 
 class Game {
   constructor(moves) {
     if (moves.length < 3 || moves.length % 2 === 0) {
-      throw new Error('You must provide an odd number of moves (>= 3). Example: rock paper scissors.');
+      throw new Error(
+        "You must provide an odd number of moves (>= 3). Example: rock paper scissors."
+      );
     }
     this.moves = moves;
     this.rules = new GameRules(moves);
@@ -22,11 +24,11 @@ class Game {
     this.printMoves();
 
     const userMove = this.getUserMove();
-    if (userMove === 'help') {
+    if (userMove === "help") {
       HelpTable.printHelp(this.moves);
       return this.start();
-    } else if (userMove === 'exit') {
-      console.log('Exiting game...');
+    } else if (userMove === "exit") {
+      console.log("Exiting game...");
       return;
     }
 
@@ -37,30 +39,30 @@ class Game {
   }
 
   printMoves() {
-    console.log('Available moves:');
+    console.log("Available moves:");
     this.moves.forEach((move, index) => {
       console.log(`${index + 1} - ${move}`);
     });
-    console.log('0 - exit');
-    console.log('? - help');
+    console.log("0 - exit");
+    console.log("? - help");
   }
 
   getUserMove() {
     let choice;
     do {
-      choice = readline.question('Enter your move: ').trim();
-      if (choice === '?') return 'help';
-      if (choice === '0') return 'exit';
+      choice = readline.question("Enter your move: ").trim();
+      if (choice === "?") return "help";
+      if (choice === "0") return "exit";
       if (!isNaN(choice) && choice >= 1 && choice <= this.moves.length) {
         return parseInt(choice);
       }
-      console.log('Invalid input, please try again.');
+      console.log("Invalid input, please try again.");
     } while (true);
   }
 
   getRandomMove() {
-    const randomBytes = crypto.randomBytes(32);  
-    const randomNumber = randomBytes.readUInt32BE(0); 
+    const randomBytes = crypto.randomBytes(32);
+    const randomNumber = randomBytes.readUInt32BE(0);
     return this.moves[randomNumber % this.moves.length];
   }
 }
@@ -69,12 +71,12 @@ class Game {
 if (require.main === module) {
   const moves = process.argv.slice(2); // Collect command line arguments starting from the third one
   if (moves.length < 3 || moves.length % 2 === 0) {
-    console.error('You must provide an odd number of moves (>= 3)');
+    console.error("You must provide an odd number of moves (>= 3)");
     process.exit(1);
   }
 
   try {
-    const game = new Game(moves); 
+    const game = new Game(moves);
     game.start(); // Start the game
   } catch (error) {
     console.error(error.message);
