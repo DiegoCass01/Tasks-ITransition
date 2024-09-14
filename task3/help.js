@@ -2,7 +2,7 @@ class HelpTable {
   static printHelp(moves) {
     const n = moves.length;
     console.log("Help Table:");
-    console.warn("PC\\USER | " + moves.join("  | "));
+    console.warn("USER\\PC | " + moves.join("  | "));
     for (let i = 0; i < n; i++) {
       let row = moves[i].padEnd(8);
       for (let j = 0; j < n; j++) {
